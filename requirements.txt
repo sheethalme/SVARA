@@ -2,9 +2,11 @@ numpy>=1.24
 scipy>=1.10
 soundfile>=0.12
 soxr>=0.3          # high-quality resampler (scipy is the automatic fallback)
+noisereduce>=3.0   # optional: only for denoise="noisereduce" (spectral_subtraction is built in)
 # Optional
 sounddevice>=0.4   # only for record_from_mic(); not needed with st.audio_input
 # Development
 pytest>=7
-matplotlib>=3.7    # only for scripts/demo_audio_io.py
+matplotlib>=3.7    # only for scripts/demo_*.py and e2e_check.py
+streamlit>=1.39    # only for scripts/try_it_app.py (st.audio_input needs 1.39+)
 # System tool (not pip): ffmpeg -- decodes MP3/WebM/M4A etc. that libsndfile cannot

@@ -1,3 +1,5 @@
+﻿.venv/
 __pycache__/
+*.py[cod]
 .pytest_cache/
-*.pyc
+e2e_output/
