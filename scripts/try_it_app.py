@@ -1,4 +1,4 @@
-"""Try SVARA 1A + 1B + 1C with your own microphone.      Run:  streamlit run scripts/try_it_app.py
+"""Try SVARA 1A + 1B + 1C + 2A with your own microphone.      Run:  streamlit run scripts/try_it_app.py
 
 Record (or upload) an answer, then compare the audio before and after the preprocessing chain.
 The switches in the sidebar turn each stage on/off, so you can hear what every stage does;
@@ -15,11 +15,12 @@ ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
 sys.path.insert(0, ROOT); sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from audio_io import AudioLoadError, load_audio_with_report
 import preprocess as pp
+import stt
 from features import extract_features, summarize_features
 from plots import plot_before_after, plot_feature_overview
 
-st.set_page_config(page_title="SVARA 1A+1B+1C test", layout="wide")
-st.title("SVARA: audio input (1A) + preprocessing (1B) + features (1C) test")
+st.set_page_config(page_title="SVARA 1A+1B+1C+2A test", layout="wide")
+st.title("SVARA: audio input (1A) + preprocessing (1B) + features (1C) + speech-to-text (2A) test")
 st.caption("Tip: leave about half a second of silence before and after you speak.")
 
 with st.sidebar:
@@ -99,5 +100,43 @@ st.caption("Pitch is measured more reliably on the 'before' signal: the 300 Hz b
 with st.expander("All features of the cleaned signal (mel spectrogram, energy, ZCR, centroid)"):
     st.pyplot(plot_feature_overview(res.signal, res.sr, fa, title="Cleaned signal"))
 plt.close("all")
+# ----------------------------------------------------------------------------------- 2A
+st.divider()
+st.subheader("2A: speech-to-text and language ID")
+LANGS = {"auto-detect": None, "ml - Malayalam": "ml", "kn - Kannada": "kn", "hi - Hindi": "hi", "en - English": "en"}
+ENGINES = {"auto (cloud first, local fallback)": "auto", "local Whisper only": "local", "cloud only": "cloud"}
+q1, q2, q3 = st.columns(3)
+lang_label = q1.selectbox("Spoken language", list(LANGS))
+eng_label = q2.selectbox("Engine", list(ENGINES))
+which = q3.radio("Audio given to the recogniser", ["after 1B (cleaned)", "after 1A only (raw)"], horizontal=True)
+d = stt.get_default()
+st.caption(f"Cloud engine: {'READY (' + d.cloud.model_name + ')' if d.cloud.available else 'not configured (set GROQ_API_KEY or OPENAI_API_KEY)'}"
+           f"  |  Local engine: {'faster-whisper installed, model ' + d.cfg.local_model if d.local.available else 'faster-whisper NOT installed'}"
+           "  |  the first local transcription loads the model (about 10 s).")
+if st.button("Transcribe", type="primary"):
+    try:
+        with st.spinner("Transcribing..."):
+            st.session_state["stt"] = stt.transcribe_full(
+                res.signal if which.startswith("after 1B") else x, language=LANGS[lang_label], engine=ENGINES[eng_label])
+    except (stt.STTError, AudioLoadError, ValueError) as e:
+        st.session_state["stt"] = None; st.error(str(e))
+r3 = st.session_state.get("stt")
+if r3 is not None:
+    (st.success if r3.reliable else st.warning)("Reliable result" if r3.reliable else "Please check this result (see warnings)")
+    st.markdown(f"### {r3.text or '(nothing recognised)'}")
+    k = st.columns(4)
+    k[0].metric("Language", stt.SUPPORTED_LANGUAGES.get(r3.language, r3.language),
+                f"{r3.language_confidence:.0%} confidence" if r3.language_confidence is not None else None)
+    k[1].metric("Engine", r3.engine or "-", "fallback" if r3.fallback_used else None)
+    k[2].metric("Model", r3.model or "-")
+    k[3].metric("Time", f"{r3.latency_s:.1f} s")
+    if r3.fallback_reason:
+        st.info(f"Cloud was not used because: {r3.fallback_reason}")
+    for w in r3.warnings:
+        st.warning(w)
+    with st.expander("Full 2A result"):
+        st.json(r3.to_dict())
+
+
 with st.expander("Full reports (1A and 1B)"):
     st.json({"1A": r1.to_dict(), "1B": r2.to_dict()})

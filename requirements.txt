@@ -13,3 +13,10 @@ librosa>=0.10      # only to cross-check features.py in the tests
 matplotlib>=3.7    # plots.py (1C Signal Lab) and the scripts
 streamlit>=1.39    # only for scripts/try_it_app.py (st.audio_input needs 1.39+)
 # System tool (not pip): ffmpeg -- decodes MP3/WebM/M4A etc. that libsndfile cannot
+
+# --- 2A speech-to-text ---
+requests>=2.28
+faster-whisper>=1.0
+python-dotenv>=1.0
+pyarrow>=14
+huggingface_hub>=0.23

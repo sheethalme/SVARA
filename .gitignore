@@ -4,3 +4,9 @@ __pycache__/
 .pytest_cache/
 e2e_output/
 outputs/
+
+# --- 2A ---
+.env
+.venv/
+stt_testdata/
+stt_results.csv
