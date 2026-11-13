@@ -1,0 +1,9 @@
+"variant (white noise, whisper base.en, 24 TTS clips)",WER % at 10 dB,WER % at 5 dB
+raw (no preprocessing),11.6,18.4
+full 1B chain (defaults),17.7,31.3
+without pre-emphasis,19.7,25.2
+without band-pass,17.7,32.0
+without noise reduction,26.5,40.8
+"wide band 80-7600 Hz, no pre-emphasis",12.9,19.7
+"noisereduce instead of spectral subtraction, no pre-emphasis, no band-pass",18.4,23.8
+VAD trimming only,13.6,18.4

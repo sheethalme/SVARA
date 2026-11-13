@@ -1,7 +1,8 @@
-"""Try SVARA 1A + 1B with your own microphone.      Run:  streamlit run scripts/try_it_app.py
+"""Try SVARA 1A + 1B + 1C with your own microphone.      Run:  streamlit run scripts/try_it_app.py
 
 Record (or upload) an answer, then compare the audio before and after the preprocessing chain.
-The switches in the sidebar turn each stage on/off, so you can hear what every stage does.
+The switches in the sidebar turn each stage on/off, so you can hear what every stage does;
+the 1C Signal Lab shows the features (waveform, spectrogram, MFCC, pitch) before and after.
 """
 import os, sys
 import numpy as np
@@ -14,9 +15,11 @@ ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
 sys.path.insert(0, ROOT); sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from audio_io import AudioLoadError, load_audio_with_report
 import preprocess as pp
+from features import extract_features, summarize_features
+from plots import plot_before_after, plot_feature_overview
 
-st.set_page_config(page_title="SVARA 1A+1B test", layout="wide")
-st.title("SVARA: audio input (1A) + preprocessing (1B) test")
+st.set_page_config(page_title="SVARA 1A+1B+1C test", layout="wide")
+st.title("SVARA: audio input (1A) + preprocessing (1B) + features (1C) test")
 st.caption("Tip: leave about half a second of silence before and after you speak.")
 
 with st.sidebar:
@@ -84,5 +87,17 @@ if res.vad is not None:
     ax2.plot(v.frame_times_s, v.energy_db, lw=.9); ax2.axhline(v.threshold_db, color="r", ls="--")
     ax2.fill_between(v.frame_times_s, v.energy_db.min(), v.energy_db.max(), where=v.mask, color="g", alpha=.2)
     ax2.set_title("VAD: frame energy (dB), threshold (red), speech (green)"); st.pyplot(f2)
+
+st.subheader("1C Signal Lab: features before vs after preprocessing")
+fb, fa = extract_features(x, sr), extract_features(res.signal, res.sr)
+st.pyplot(plot_before_after(res, feats_before=fb, feats_after=fa))
+sb, sa = summarize_features(fb), summarize_features(fa)
+st.table({"feature": list(sb), "before": [f"{v:.3f}" for v in sb.values()],
+          "after": [f"{v:.3f}" for v in sa.values()]})
+st.caption("Pitch is measured more reliably on the 'before' signal: the 300 Hz band-pass removes "
+           "the fundamental of low voices, so fewer frames are classed as voiced after 1B.")
+with st.expander("All features of the cleaned signal (mel spectrogram, energy, ZCR, centroid)"):
+    st.pyplot(plot_feature_overview(res.signal, res.sr, fa, title="Cleaned signal"))
+plt.close("all")
 with st.expander("Full reports (1A and 1B)"):
     st.json({"1A": r1.to_dict(), "1B": r2.to_dict()})

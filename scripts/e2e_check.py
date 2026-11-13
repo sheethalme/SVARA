@@ -1,4 +1,4 @@
-"""End-to-end check of 1A (audio_io) + 1B (preprocess) on ONE recording.
+"""End-to-end check of 1A (audio_io) + 1B (preprocess) + 1C (features, plots) on ONE recording.
 
     python scripts/e2e_check.py                       # uses a built-in noisy test clip
     python scripts/e2e_check.py my_voice.wav          # any file: wav, mp3, flac, ogg (webm/m4a need ffmpeg)
@@ -10,6 +10,7 @@ writes into --out-dir (default: e2e_output/):
     cleaned.wav          the audio that would go to the speech recogniser  -> LISTEN TO IT
     input_16k.wav        the same recording after 1A only (for A/B listening)
     e2e_report.png       waveforms, spectrograms and the VAD decision
+    signal_lab.png       1C before/after: waveform, spectrogram, MFCC heat-map, pitch contour
 """
 import argparse, os, sys
 import numpy as np
@@ -21,6 +22,8 @@ ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
 sys.path.insert(0, ROOT); sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from audio_io import AudioLoadError, load_audio_with_report, save_wav, TARGET_SR
 import preprocess as pp
+from features import extract_features, summarize_features
+from plots import plot_before_after
 
 OK, BAD = "PASS", "FAIL"
 
@@ -84,7 +87,6 @@ def main():
     save_wav(cleaned, os.path.join(a.out_dir, "cleaned.wav"), res.sr)
 
     # ---------------- checks
-    print("\nAUTOMATIC CHECKS (the contract Member 2 relies on)")
     checks = [
         ("output is a NumPy float32 array", isinstance(cleaned, np.ndarray) and cleaned.dtype == np.float32),
         ("mono (1-D)", cleaned.ndim == 1),
@@ -100,6 +102,32 @@ def main():
         checks.append(("speech detected and kept (output >= 0.3 s)", r2.output_duration_s >= 0.3))
     if r2.noise_reduction_applied:
         checks.append(("noise floor went down", r2.noise_floor_after_db < r2.noise_floor_before_db))
+
+    # ---------------- 1C
+    print("\nSTEP 1C  features.extract_features (before = after 1A, after = after 1B)")
+    fb, fa = extract_features(x, sr), extract_features(cleaned, res.sr)
+    sb, sa = summarize_features(fb), summarize_features(fa)
+    for key, unit in [("mean_energy_db", "dB"), ("energy_range_db", "dB"), ("mean_zcr", ""),
+                      ("mean_spectral_centroid_hz", "Hz"), ("voiced_fraction", ""),
+                      ("median_f0_hz", "Hz")]:
+        print(f"  {key:26s}: {sb[key]:9.3f} -> {sa[key]:9.3f} {unit}")
+    T = fa["times"].size
+    checks += [
+        ("1C: every feature on the same frame grid",
+         all(fa[k].shape[-1] == T for k in ("energy", "zcr", "spectral_centroid", "f0", "mfcc",
+                                             "mfcc_delta", "mfcc_delta2", "mel_spectrogram"))),
+        ("1C: 13 MFCCs and 40 mel bands", fa["mfcc"].shape[0] == 13 and fa["mel_spectrogram"].shape[0] == 40),
+        ("1C: features finite (F0 NaN only where unvoiced)",
+         all(np.all(np.isfinite(fa[k])) for k in ("energy_db", "zcr", "spectral_centroid", "mfcc"))
+         and bool(np.all(np.isnan(fa["f0"]) == ~fa["voiced"]))),
+        ("1C: 10 ms frames (100 per second)", abs(T - len(cleaned) / res.sr * 100) <= 3),
+    ]
+    if r2.speech_detected:
+        checks.append(("1C: pitch found in the input speech", sb["voiced_fraction"] > 0.05))
+    if sa["voiced_fraction"] < 0.5 * sb["voiced_fraction"]:
+        print("  note: fewer voiced frames after 1B -- the 300 Hz band-pass removes the fundamental of "
+              "low voices; read the pitch from the 'before' signal")
+    print("\nAUTOMATIC CHECKS (the contract Member 2 relies on)")
     failed = 0
     for name, ok in checks:
         print(f"  [{OK if ok else BAD}] {name}"); failed += (not ok)
@@ -125,9 +153,11 @@ def main():
     ax[2, 1].plot(f1, 10 * np.log10(p1 + 1e-14), label="before"); ax[2, 1].plot(f2, 10 * np.log10(p2 + 1e-14), label="after")
     ax[2, 1].set_title("Average spectrum: 300-3400 Hz band kept"); ax[2, 1].set_xlabel("Hz"); ax[2, 1].legend(fontsize=7)
     fig.tight_layout(); png = os.path.join(a.out_dir, "e2e_report.png"); fig.savefig(png, dpi=110)
+    fig = plot_before_after(res, feats_before=fb, feats_after=fa)
+    fig.savefig(os.path.join(a.out_dir, "signal_lab.png"), dpi=110); plt.close("all")
 
     print("\nFILES WRITTEN")
-    for n in ("input_16k.wav", "cleaned.wav", "e2e_report.png"):
+    for n in ("input_16k.wav", "cleaned.wav", "e2e_report.png", "signal_lab.png"):
         print("  ", os.path.abspath(os.path.join(a.out_dir, n)))
     notes = []
     if not r2.speech_detected:
@@ -143,7 +173,7 @@ def main():
         print("NOTE:", n)
     if not failed and not notes:
         print("END-TO-END CHECK PASSED (speech found, noise reduced, silence trimmed)")
-    print("Now LISTEN to input_16k.wav then cleaned.wav and look at e2e_report.png.")
+    print("Now LISTEN to input_16k.wav then cleaned.wav and look at e2e_report.png and signal_lab.png.")
     return 1 if failed else 0
 
 
