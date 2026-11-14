@@ -1,0 +1,7 @@
+noise,SNR_dB,SI-SNR filter only,SI-SNR spectral subtraction,SI-SNR noisereduce,noise floor drop dB,speech found,mean VAD boundary error ms
+white,20,10.1,16.2,14.0,11.0,5/5,18
+white,10,0.1,7.4,8.7,11.0,5/5,13
+white,5,-4.9,2.7,5.4,11.0,5/5,12
+pink,20,14.8,20.1,15.9,11.0,5/5,18
+pink,10,4.8,11.2,10.7,11.0,5/5,15
+pink,5,-0.2,6.7,7.5,11.0,5/5,13

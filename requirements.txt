@@ -1,0 +1,17 @@
+numpy>=1.24
+scipy>=1.10
+soundfile>=0.12
+soxr>=0.3          # high-quality resampler (scipy is the automatic fallback)
+requests>=2.28     # cloud speech-to-text (2A)
+faster-whisper>=1.0 # local Whisper fallback (2A); downloads the model (~460 MB for "small") on first use
+noisereduce>=3.0   # optional: only for denoise="noisereduce" (spectral_subtraction is built in)
+python-dotenv>=1.0 # optional: reads API keys from a .env file
+# Optional
+sounddevice>=0.4   # only for record_from_mic(); not needed with st.audio_input
+# Development / testing
+pytest>=7
+matplotlib>=3.7    # only for scripts/demo_*.py and e2e_check.py
+streamlit>=1.39    # only for scripts/try_it_app.py (st.audio_input needs 1.39+)
+pyarrow>=14        # only for scripts/fetch_fleurs_samples.py
+huggingface_hub>=0.23  # only for scripts/fetch_fleurs_samples.py
+# System tool (not pip): ffmpeg -- decodes MP3/WebM/M4A etc. that libsndfile cannot

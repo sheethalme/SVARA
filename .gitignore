@@ -1,0 +1,11 @@
+.env
+.venv/
+__pycache__/
+.pytest_cache/
+*.pyc
+stt_testdata/
+stt_results.csv
+e2e_output/
+
+forms/
+.streamlit/secrets.toml

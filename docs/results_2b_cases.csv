@@ -1,0 +1,16 @@
+field,cases,correct,accuracy
+aadhaar,11,11,1.000
+address,8,8,1.000
+age,34,34,1.000
+amount,8,8,1.000
+blood_group,14,14,1.000
+complaint,4,4,1.000
+date,3,3,1.000
+date_of_birth,26,26,1.000
+email,6,6,1.000
+gender,18,18,1.000
+name,31,31,1.000
+occupation,2,2,1.000
+phone,18,18,1.000
+pincode,7,7,1.000
+yes_no,9,9,1.000
