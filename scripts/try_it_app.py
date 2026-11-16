@@ -1,4 +1,4 @@
-"""Try SVARA 1A + 1B + 1C + 2A + 2B with your own microphone.      Run:  streamlit run scripts/try_it_app.py
+"""Try SVARA 1A + 1B + 1C + 2A + 2B + 2C with your own microphone.      Run:  streamlit run scripts/try_it_app.py
 
 Record (or upload) an answer, then compare the audio before and after the preprocessing chain.
 The switches in the sidebar turn each stage on/off, so you can hear what every stage does;
@@ -20,8 +20,10 @@ from features import extract_features, summarize_features
 from plots import plot_before_after, plot_feature_overview
 import stt
 import extractor
-st.set_page_config(page_title="SVARA 1A+1B+1C+2A+2B test", layout="wide")
-st.title("SVARA: audio input (1A) + preprocessing (1B) + features (1C) + speech-to-text (2A) + extraction (2B)")
+import tts
+import wer
+st.set_page_config(page_title="SVARA 1A-2C test", layout="wide")
+st.title("SVARA: audio input (1A) + preprocessing (1B) + features (1C) + speech-to-text (2A) + extraction (2B) + speech & WER (2C)")
 st.caption("Tip: leave about half a second of silence before and after you speak.")
 
 with st.sidebar:
@@ -242,6 +244,39 @@ if _e is not None:
     with st.expander("Full 2B result"):
         st.json(_e.to_dict())
 
+
+# ----------------------------------------------------------------------------------- 2C
+st.divider()
+st.subheader("2C: text-to-speech read-back and word error rate")
+_tl = _lang or "en"
+_e2 = st.session_state.get("ext_2b")
+_rb = (f"I heard your {_e2.field.replace('_', ' ')} as {extractor.spoken_form(_e2.field, _e2.value, _tl)}. Is that correct?"
+       if _e2 is not None and _e2.value is not None else "What is your date of birth?")
+t1, t2 = st.columns([3, 1])
+_say = t1.text_input("Text to speak (the read-back of the 2B result, or any sentence)", value=_rb, key="tts_text_" + _rb)
+_say_lang = t2.selectbox("Voice language", list(tts.LANGUAGES), index=list(tts.LANGUAGES).index(_tl),
+                         format_func=tts.LANGUAGES.get, key="tts_lang")
+if _say.strip():
+    try:
+        _sp = tts.speak_full(_say, _say_lang)
+        st.audio(_sp.audio, format=tts.MP3_MIME)
+        st.caption(("from the cache (no internet used)" if _sp.cached else "made with gTTS and cached") +
+                   f"  |  {_sp.latency_s:.2f} s  |  voices: " +
+                   " + ".join(f"{s['language']} ('{s['text'][:25]}')" for s in _sp.segments))
+    except tts.TTSError as e:
+        st.error(str(e))
+
+st.markdown("**WER:** compare what was really said (reference) with the 2A transcript (hypothesis).")
+w1, w2 = st.columns(2)
+_ref = w1.text_area("Reference (type exactly what you said)", key="wer_ref", height=70)
+_hyp = w2.text_area("Hypothesis (from 2A)", value=r3.text if r3 is not None and r3.text else "",
+                    key="wer_hyp_" + str(abs(hash(r3.text if r3 is not None else ""))), height=70)
+if _ref.strip():
+    _w = wer.compute_wer_full(_ref, _hyp, language=r3.language if r3 is not None and r3.language in tts.LANGUAGES else None)
+    m = st.columns(5)
+    m[0].metric("WER", f"{_w.wer:.1%}"); m[1].metric("Substitutions", _w.substitutions)
+    m[2].metric("Deletions", _w.deletions); m[3].metric("Insertions", _w.insertions); m[4].metric("Reference words", _w.n_ref)
+    st.code(_w.pretty(), language=None)
 
 with st.expander("Full reports (1A and 1B)"):
     st.json({"1A": r1.to_dict(), "1B": r2.to_dict()})

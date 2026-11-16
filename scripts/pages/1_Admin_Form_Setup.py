@@ -7,6 +7,7 @@ ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..")
 sys.path.insert(0, ROOT)
 import extractor
 import formflow as ff
+import tts
 
 st.set_page_config(page_title="SVARA admin: form setup", layout="wide")
 st.title("Admin: set up a form")
@@ -75,6 +76,11 @@ if st.button("Save form", type="primary", disabled=edited is None):
         form = ff.save_form(title, fields, up.getvalue() if up else None, up.name if up else None)
         st.success(f"Saved '{form['title']}' with {len(fields)} fields. Users can now fill it on the "
                    "'Fill Form by Voice' page.")
+        with st.spinner("Preparing the spoken questions (2C text-to-speech)..."):
+            pre = tts.prefetch([f["question"] for f in fields], "en")
+        if pre["errors"]:
+            st.info("Spoken questions could not be prepared now (no internet?); they will be made the first "
+                    "time a user hears them, or read by the browser's voice.")
     except ValueError as e:
         st.error(str(e))
 

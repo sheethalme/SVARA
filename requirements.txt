@@ -6,6 +6,7 @@ requests>=2.28     # cloud speech-to-text (2A)
 faster-whisper>=1.0 # local Whisper fallback (2A); downloads the model (~460 MB for "small") on first use
 noisereduce>=3.0   # optional: only for denoise="noisereduce" (spectral_subtraction is built in)
 python-dotenv>=1.0 # optional: reads API keys from a .env file
+gTTS>=2.5          # text-to-speech (2C); needs internet for sentences not yet in tts_cache/
 # Optional
 openai-whisper     # evaluate.py ASR backend + English WER normaliser (not needed if asr_agent.py exists)
 sounddevice>=0.4   # only for record_from_mic(); not needed with st.audio_input

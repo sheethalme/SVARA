@@ -15,7 +15,7 @@ For every clip, noise kind and SNR (default: clean, 20, 10, 5 dB white noise):
    the *speech* part, found with 1B's VAD on the clean clip, not of the whole file);
 3. transcribe it twice -- **raw** (1A only) and **preprocessed** (``clean_audio``);
 4. score each transcript against the reference with the word error rate
-   ``WER = (S + D + I) / N`` (:func:`word_errors`, a word-level Levenshtein alignment).
+   ``WER = (S + D + I) / N`` (:func:`word_errors`, which calls 2C's ``wer.compute_wer``).
 
 Outputs (``--out``, default ``outputs/eval``): ``per_clip.csv`` (every transcript and its
 errors), ``summary.csv`` (corpus WER per SNR and condition), ``wer_vs_snr.png`` and a
@@ -33,9 +33,7 @@ from __future__ import annotations
 import csv
 import logging
 import os
-import re
 import time
-import unicodedata
 from dataclasses import dataclass
 from typing import Any, Callable, Dict, Iterable, List, Optional, Sequence, Tuple, Union
 
@@ -57,81 +55,19 @@ Transcriber = Callable[[np.ndarray, Optional[str]], str]
 
 
 # =========================================================================== WER
-def normalize_text(s: str, language: Optional[str] = None) -> str:
-    """Make two transcripts comparable before counting word errors.
-
-    Always: lower-case, drop punctuation and symbols, collapse spaces.  This works for
-    Devanagari / Malayalam / Kannada too: only Unicode *punctuation* (P*) and *symbol* (S*)
-    characters are removed, so vowel signs and viramas (category M*) stay.
-
-    English (``language="en"``, or no language and pure-ASCII text) additionally goes
-    through Whisper's ``EnglishTextNormalizer`` when it is installed -- the normaliser used
-    for the WER figures in the Whisper paper.  It writes numbers as digits ("twenty five"
-    and "25" both become "25", "fifteenth" -> "15th", "nineteen eighty" -> "1980"), which
-    matters here because form answers are full of ages, dates and phone numbers: without
-    it a perfectly recognised "25" would count as two word errors.  Neighbouring digit
-    groups are then joined ("98472 16530" -> "9847216530"), as a phone number is one value.
-    """
-    s = unicodedata.normalize("NFC", s)
-    english = language == "en" or (language is None and s.isascii())
-    if english and _english_normalizer() is not None:
-        s = _english_normalizer()(s)
-        return re.sub(r"(?<=\d) (?=\d)", "", s).strip()
-    s = s.casefold().replace("-", " ")
-    s = "".join(ch for ch in s if unicodedata.category(ch)[0] not in "PS")
-    return re.sub(r"\s+", " ", s).strip()
-
-
-_EN_NORMALIZER: List[Any] = []
-
-
-def _english_normalizer():
-    if not _EN_NORMALIZER:
-        try:
-            from whisper.normalizers import EnglishTextNormalizer
-            _EN_NORMALIZER.append(EnglishTextNormalizer())
-        except ImportError:
-            _EN_NORMALIZER.append(None)
-    return _EN_NORMALIZER[0]
+# The WER itself lives in sub-module 2C (wer.py), the project's single implementation.
+from wer import normalize_text  # noqa: E402  (re-exported: same name as before)
+from wer import compute_wer_full
 
 
 def word_errors(reference: str, hypothesis: str, normalize: bool = True,
                 language: Optional[str] = None) -> Dict[str, Any]:
-    """Align two word sequences with minimum edit distance (Levenshtein, all costs 1) and
-    count substitutions S, deletions D (reference words missing) and insertions I (extra
-    words).  ``wer = (S + D + I) / N`` with ``N`` = number of reference words; it can
-    exceed 1 when the recogniser adds many words.  An empty reference gives
-    ``wer = 0`` if the hypothesis is empty too, else ``1``.
+    """Word errors of one transcript, computed by 2C's :func:`wer.compute_wer_full`:
+    substitutions S, deletions D, insertions I and ``wer = (S + D + I) / N`` (N = reference
+    words; can exceed 1).  An empty reference gives ``wer = 0`` if the hypothesis is empty
+    too, else ``1``.  Returns ``{"S", "D", "I", "N", "errors", "wer"}``.
     """
-    if normalize:
-        reference = normalize_text(reference, language)
-        hypothesis = normalize_text(hypothesis, language)
-    r, h = reference.split(), hypothesis.split()
-    n, m = len(r), len(h)
-    # dp[i][j] = edit distance between r[:i] and h[:j]
-    dp = np.zeros((n + 1, m + 1), dtype=np.int64)
-    dp[:, 0] = np.arange(n + 1)
-    dp[0, :] = np.arange(m + 1)
-    for i in range(1, n + 1):
-        for j in range(1, m + 1):
-            sub = dp[i - 1, j - 1] + (r[i - 1] != h[j - 1])
-            dp[i, j] = min(sub, dp[i - 1, j] + 1, dp[i, j - 1] + 1)
-    # back-trace to split the distance into S / D / I
-    S = D = I = 0
-    i, j = n, m
-    while i > 0 or j > 0:
-        if i > 0 and j > 0 and dp[i, j] == dp[i - 1, j - 1] + (r[i - 1] != h[j - 1]):
-            S += r[i - 1] != h[j - 1]
-            i, j = i - 1, j - 1
-        elif i > 0 and dp[i, j] == dp[i - 1, j] + 1:
-            D += 1
-            i -= 1
-        else:
-            I += 1
-            j -= 1
-    errors = S + D + I
-    wer = errors / n if n else float(m > 0)
-    return {"S": int(S), "D": int(D), "I": int(I), "N": n, "errors": int(errors), "wer": wer}
+    return compute_wer_full(reference, hypothesis, normalize, language).as_counts()
 
 
 def corpus_wer(results: Iterable[Dict[str, Any]]) -> float:

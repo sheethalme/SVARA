@@ -8,13 +8,14 @@ sys.path.insert(0, ROOT); sys.path.insert(0, os.path.join(ROOT, "scripts"))
 os.environ.setdefault("SVARA_WHISPER_MODEL", "large-v3-turbo")
 import audio_io
 import formflow as ff
+import tts
 
 st.set_page_config(page_title="SVARA: fill a form by voice", layout="centered")
 st.title("Fill a form by voice")
 
 
-def speak(text: str, lang: str, turn: int) -> None:
-    """Read `text` aloud with the browser's own speech synthesis (no install, no cost)."""
+def _browser_speak(text: str, lang: str, turn: int) -> None:
+    """Fallback: the browser's own speech synthesis (works offline, but often has no ml/kn voice)."""
     components.html(
         f"""<button id="b" style="font:14px sans-serif;padding:4px 10px">🔊 Replay question</button>
 <script>
@@ -22,6 +23,18 @@ const t={json.dumps(text)}, l={json.dumps(ff.TTS_LANG.get(lang, 'en-IN'))};
 function say(){{ speechSynthesis.cancel(); const u=new SpeechSynthesisUtterance(t); u.lang=l; speechSynthesis.speak(u); }}
 document.getElementById('b').onclick=say; say();
 </script><!-- turn {turn} -->""", height=44)
+
+
+def speak(text: str, lang: str, turn: int) -> None:
+    """Read `text` aloud with 2C (gTTS, cached; each script in its own voice).  If gTTS cannot
+    be reached and the sentence is not cached yet, fall back to the browser's voice."""
+    try:
+        audio = tts.speak(text, lang)
+    except tts.TTSError as e:
+        st.caption(f"Using the browser's voice ({e}).")
+        _browser_speak(text, lang, turn)
+        return
+    st.audio(audio, format=tts.MP3_MIME, autoplay=True)
 
 
 forms = ff.list_forms()
