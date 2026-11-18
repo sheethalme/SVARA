@@ -1,12 +1,9 @@
-﻿.venv/
+﻿.env
+.venv/
 __pycache__/
 *.py[cod]
 .pytest_cache/
 e2e_output/
+tts_cache/
+tts_out.mp3
 outputs/
-
-# --- 2A ---
-.env
-.venv/
-stt_testdata/
-stt_results.csv

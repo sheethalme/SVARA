@@ -1,0 +1,200 @@
+field,language,text,expected
+name,en,my name is anil kumar,Anil Kumar
+name,en,uh my name is priya nair,Priya Nair
+name,en,this is rahul,Rahul
+name,en,I am Suresh Babu,Suresh Babu
+name,en,name is lakshmi devi,Lakshmi Devi
+name,en,Mr. Ramesh Iyer,Ramesh Iyer
+name,en,hello my name is um john thomas,John Thomas
+name,en,my name is a n i l,Anil
+name,en,my full name is mohammed ali khan,Mohammed Ali Khan
+name,en,call me deepa,Deepa
+name,en,o'connor,O'Connor
+name,en,it's meera,Meera
+name,en,Anil Kumar,Anil Kumar
+name,en,my name is anil kumar please,Anil Kumar
+name,en,Shri Gopal Krishnan,Gopal Krishnan
+name,en,smt sita devi,Sita Devi
+name,en,ANIL KUMAR,Anil Kumar
+name,en,my name is anil kumar 2,Anil Kumar
+name,en,,
+name,hi,मेरा नाम सुनीता शर्मा है,सुनीता शर्मा
+name,hi,मेरा नाम राजेश कुमार,राजेश कुमार
+name,hi,नाम अमित वर्मा,अमित वर्मा
+name,hi,श्री मोहन लाल,मोहन लाल
+name,hi,मैं प्रिया हूँ,प्रिया
+name,hi,मेरा पूरा नाम विजय सिंह है,विजय सिंह
+name,ml,എന്റെ പേര് അനിൽ കുമാർ ആണ്,അനിൽ കുമാർ
+name,ml,പേര് ലക്ഷ്മി,ലക്ഷ്മി
+name,ml,ഞാൻ രവി,രവി
+name,kn,ನನ್ನ ಹೆಸರು ರಮೇಶ್ ಆಗಿದೆ,ರಮೇಶ್
+name,kn,ಹೆಸರು ಸುನಿತಾ,ಸುನಿತಾ
+name,kn,ನಾನು ಅನಿಲ್,ಅನಿಲ್
+age,en,I am twenty five years old,25
+age,en,25,25
+age,en,twenty five,25
+age,en,I'm 7,7
+age,en,forty two years,42
+age,en,ninety,90
+age,en,one hundred and five years,105
+age,en,my age is thirty,30
+age,en,six months,0
+age,en,I am nineteen,19
+age,en,age is sixty eight,68
+age,en,eighty,80
+age,en,twenty-five,25
+age,en,I am a student,
+age,en,one hundred fifty,
+age,en,I am 25 years and my son is 3,25
+age,hi,मेरी उम्र पैंतालीस साल है,45
+age,hi,पच्चीस साल,25
+age,hi,उम्र 32 साल,32
+age,hi,इकतीस,31
+age,hi,अट्ठावन साल,58
+age,hi,सत्तर,70
+age,hi,सात साल,7
+age,hi,५५,55
+age,hi,मैं उन्नीस साल का हूँ,19
+age,ml,ഇരുപത്തിയഞ്ച് വയസ്,25
+age,ml,എനിക്ക് 30 വയസ്സ്,30
+age,ml,നാൽപ്പത്,40
+age,ml,അറുപത്,60
+age,ml,മുപ്പത്തിയൊന്ന് വയസ്,31
+age,kn,ಇಪ್ಪತ್ತೈದು ವರ್ಷ,25
+age,kn,ನನಗೆ 40 ವರ್ಷ,40
+age,kn,ಮೂವತ್ತು,30
+age,kn,ಇಪ್ಪತ್ತೊಂಬತ್ತು ವರ್ಷ,29
+gender,en,male,Male
+gender,en,I am a man,Male
+gender,en,female,Female
+gender,en,woman,Female
+gender,en,girl,Female
+gender,en,transgender,Other
+gender,en,I don't know,
+gender,en,male and female,
+gender,hi,पुरुष,Male
+gender,hi,महिला,Female
+gender,hi,मैं औरत हूँ,Female
+gender,hi,लड़का,Male
+gender,ml,പുരുഷൻ,Male
+gender,ml,സ്ത്രീ,Female
+gender,ml,ഞാൻ പെൺകുട്ടിയാണ്,Female
+gender,kn,ಪುರುಷ,Male
+gender,kn,ಮಹಿಳೆ,Female
+gender,kn,ಹೆಣ್ಣು,Female
+phone,en,nine eight seven six five four three two one zero,9876543210
+phone,en,98765 43210,9876543210
+phone,en,+91 98765 43210,9876543210
+phone,en,09876543210,9876543210
+phone,en,double nine eight seven six five four three two one,9987654321
+phone,en,triple eight seven six five four three two one,8887654321
+phone,en,nine eight seven six five oh four three two one,9876504321
+phone,en,my number is 9 8 7 6 5 4 3 2 1 0,9876543210
+phone,en,my phone number is 98765-43210,9876543210
+phone,en,12345,
+phone,en,9876,
+phone,en,hello,
+phone,en,nine eight seven six five four three two one zero nine eight seven six five four three two one zero,9876543210
+phone,hi,९८७६५४३२१०,9876543210
+phone,hi,नौ आठ सात छह पाँच चार तीन दो एक शून्य,9876543210
+phone,hi,डबल नौ आठ सात छह पाँच चार तीन दो एक,9987654321
+phone,ml,ഒമ്പത് എട്ട് ഏഴ് ആറ് അഞ്ച് നാല് മൂന്ന് രണ്ട് ഒന്ന് പൂജ്യം,9876543210
+phone,kn,ಒಂಬತ್ತು ಎಂಟು ಏಳು ಆರು ಐದು ನಾಲ್ಕು ಮೂರು ಎರಡು ಒಂದು ಸೊನ್ನೆ,9876543210
+pincode,en,682001,682001
+pincode,en,six eight two zero zero one,682001
+pincode,en,६८२००१,682001
+pincode,en,pin code is 560 001,560001
+pincode,en,123,
+pincode,en,012345,
+pincode,en,six eight two zero zero one nine,
+aadhaar,en,234567890124,234567890124
+aadhaar,en,2 3 4 5 6 7 8 9 0 1 2 4,234567890124
+aadhaar,en,two three four five six seven eight nine zero one two four,234567890124
+aadhaar,en,987654321096,987654321096
+aadhaar,en,9 8 7 6 5 4 3 2 1 0 9 6,987654321096
+aadhaar,en,nine eight seven six five four three two one zero nine six,987654321096
+aadhaar,en,456789012341,456789012341
+aadhaar,en,4 5 6 7 8 9 0 1 2 3 4 1,456789012341
+aadhaar,en,four five six seven eight nine zero one two three four one,456789012341
+aadhaar,en,12345,
+aadhaar,en,034567890124,
+date_of_birth,en,5th March 1990,1990-03-05
+date_of_birth,en,five march nineteen ninety,1990-03-05
+date_of_birth,en,"March 5, 1990",1990-03-05
+date_of_birth,en,5/3/1990,1990-03-05
+date_of_birth,en,25/12/2000,2000-12-25
+date_of_birth,en,1990-03-05,1990-03-05
+date_of_birth,en,15 august 1947,1947-08-15
+date_of_birth,en,twenty first of june two thousand five,2005-06-21
+date_of_birth,en,second january twenty oh five,2005-01-02
+date_of_birth,en,fifth may nineteen ninety five,1995-05-05
+date_of_birth,en,30 february 1990,
+date_of_birth,en,5 march,
+date_of_birth,en,born on 31 december 1999,1999-12-31
+date_of_birth,en,1st of april 2001,2001-04-01
+date_of_birth,en,twenty fifth december two thousand,2000-12-25
+date_of_birth,en,25 december 2030,
+date_of_birth,en,1 january 1800,
+date_of_birth,en,5-3-90,1990-03-05
+date_of_birth,en,my date of birth is 12 july 1985,1985-07-12
+date_of_birth,en,nothing,
+date_of_birth,hi,पाँच मार्च उन्नीस सौ नब्बे,1990-03-05
+date_of_birth,hi,५ मार्च १९९०,1990-03-05
+date_of_birth,hi,पंद्रह अगस्त उन्नीस सौ सैंतालीस,1947-08-15
+date_of_birth,hi,दो हज़ार पाँच में बीस जनवरी,2005-01-20
+date_of_birth,ml,മാർച്ച് 5 1990,1990-03-05
+date_of_birth,kn,5 ಮಾರ್ಚ್ 1990,1990-03-05
+date,en,tomorrow,2026-11-14
+date,en,today,2026-11-13
+date,en,21 june 2027,2027-06-21
+blood_group,en,o negative,O-
+blood_group,en,O+,O+
+blood_group,en,ab positive,AB+
+blood_group,en,a positive,A+
+blood_group,en,B negative,B-
+blood_group,en,a plus,A+
+blood_group,en,ab minus,AB-
+blood_group,en,my blood group is o positive,O+
+blood_group,en,I don't know,
+blood_group,en,A+ve,A+
+blood_group,hi,ए पॉजिटिव,A+
+blood_group,hi,ओ नेगेटिव,O-
+blood_group,hi,बी पॉजिटिव,B+
+blood_group,hi,एबी नेगेटिव,AB-
+email,en,priya.nair@example.com,priya.nair@example.com
+email,en,john dot doe at gmail dot com,john.doe@gmail.com
+email,en,ravi nine nine at yahoo dot in,ravi99@yahoo.in
+email,en,my email is Arun@Gmail.com,arun@gmail.com
+email,en,not an email,
+email,en,sita underscore devi at outlook dot com,sita_devi@outlook.com
+yes_no,en,yes,Yes
+yes_no,en,yeah,Yes
+yes_no,en,nope,No
+yes_no,en,not correct,No
+yes_no,en,maybe,
+yes_no,hi,नहीं,No
+yes_no,hi,हाँ,Yes
+yes_no,ml,ഇല്ല,No
+yes_no,kn,ಹೌದು,Yes
+amount,en,two lakh fifty thousand,250000
+amount,en,fifty thousand,50000
+amount,en,"1,20,000",120000
+amount,en,twelve thousand five hundred,12500
+amount,en,ten lakhs,1000000
+amount,en,nothing,
+amount,hi,एक लाख पचास हज़ार,150000
+amount,hi,पाँच हज़ार,5000
+address,en,"I live at twelve MG road near the temple, kochi","12 MG Road near the Temple, Kochi"
+address,en,"house number twelve, anna nagar, chennai","House Number 12, Anna Nagar, Chennai"
+address,en,"my address is 5 gandhi street, madurai","5 Gandhi Street, Madurai"
+address,en,"flat number four b, lotus apartments, bangalore","Flat Number 4 B, Lotus Apartments, Bangalore"
+address,en,uh my address is 23 park lane,23 Park Lane
+address,en,hi,
+address,hi,"आर्य समाज रोड, करोल बाग, नई दिल्ली","आर्य समाज रोड, करोल बाग, नई दिल्ली"
+address,hi,"मेरा पता है गांधी नगर, जयपुर","गांधी नगर, जयपुर"
+complaint,en,um the problem is I have fever and headache since two days,I have fever and headache since two days
+complaint,en,fever,Fever
+complaint,hi,मुझे बुखार है,मुझे बुखार है
+complaint,en,my problem is stomach pain,Stomach pain
+occupation,en,I am a teacher,Teacher
+occupation,en,I work as an electrician,Electrician
