@@ -1,0 +1,14 @@
+{
+  "id": "clinic_registration",
+  "title": "Clinic registration",
+  "language": "en",
+  "languages": ["en", "hi", "ml", "kn"],
+  "settings": {"require_consent": true, "store_audio": false, "max_attempts": 3},
+  "fields": [
+    {"name": "name", "required": true},
+    {"name": "age", "required": true},
+    {"name": "gender", "required": true},
+    {"name": "phone", "required": true},
+    {"name": "blood_group", "required": false}
+  ]
+}

@@ -1,0 +1,109 @@
+{
+  "id": "greenleaf_multispeciality_hospital",
+  "title": "Medical form",
+  "language": "en",
+  "fields": [
+    {
+      "name": "name",
+      "kind": "name",
+      "required": true,
+      "label": {
+        "en": "Patient Name"
+      },
+      "question": {
+        "en": "What is your full name?"
+      }
+    },
+    {
+      "name": "date_of_birth",
+      "kind": "date_of_birth",
+      "required": true,
+      "label": {
+        "en": "Date of Birth"
+      },
+      "question": {
+        "en": "What is your date of birth? For example, five March nineteen ninety."
+      }
+    },
+    {
+      "name": "age",
+      "kind": "age",
+      "required": true,
+      "label": {
+        "en": "Age"
+      },
+      "question": {
+        "en": "How old are you?"
+      }
+    },
+    {
+      "name": "phone",
+      "kind": "phone",
+      "required": true,
+      "label": {
+        "en": "Mobile Number"
+      },
+      "question": {
+        "en": "What is your mobile number? Please say the digits one by one."
+      }
+    },
+    {
+      "name": "blood_group",
+      "kind": "blood_group",
+      "required": true,
+      "label": {
+        "en": "Blood Group"
+      },
+      "question": {
+        "en": "Which blood group? A+, A-, B+, B-, O+ or AB+?"
+      }
+    },
+    {
+      "name": "contact_person_name",
+      "kind": "phone",
+      "required": true,
+      "label": {
+        "en": "Contact Person Name"
+      },
+      "question": {
+        "en": "What is your contact person name?"
+      }
+    },
+    {
+      "name": "relationship",
+      "kind": "text",
+      "required": true,
+      "label": {
+        "en": "Relationship"
+      },
+      "question": {
+        "en": "What is your relationship?"
+      }
+    },
+    {
+      "name": "contact_phone",
+      "kind": "phone",
+      "required": true,
+      "label": {
+        "en": "Contact Phone"
+      },
+      "question": {
+        "en": "What is your contact phone? Please say the digits one by one."
+      }
+    },
+    {
+      "name": "i_agree",
+      "kind": "yes_no",
+      "required": true,
+      "label": {
+        "en": "I agree"
+      },
+      "question": {
+        "en": "The form says: \"I agree\". Do you agree? Please say yes or no."
+      }
+    }
+  ],
+  "languages": [
+    "en"
+  ]
+}

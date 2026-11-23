@@ -1,0 +1,219 @@
+{
+  "id": "sunrise_institute_of_technology",
+  "title": "Sunrise Institute of Technology",
+  "language": "en",
+  "fields": [
+    {
+      "name": "fathers_name",
+      "kind": "name",
+      "required": true,
+      "label": {
+        "en": "Father's Name"
+      },
+      "question": {
+        "en": "What is your father's name?"
+      }
+    },
+    {
+      "name": "mothers_name",
+      "kind": "name",
+      "required": true,
+      "label": {
+        "en": "Mother's Name"
+      },
+      "question": {
+        "en": "What is your mother's name?"
+      }
+    },
+    {
+      "name": "date_of_birth",
+      "kind": "date_of_birth",
+      "required": true,
+      "label": {
+        "en": "Date of Birth"
+      },
+      "question": {
+        "en": "What is your date of birth? For example, five March nineteen ninety."
+      }
+    },
+    {
+      "name": "age",
+      "kind": "age",
+      "required": true,
+      "label": {
+        "en": "Age"
+      },
+      "question": {
+        "en": "How old are you?"
+      }
+    },
+    {
+      "name": "gender",
+      "kind": "gender",
+      "required": true,
+      "label": {
+        "en": "Gender"
+      },
+      "question": {
+        "en": "What is your gender? Male, Female or Other?"
+      }
+    },
+    {
+      "name": "nationality",
+      "kind": "text",
+      "required": true,
+      "label": {
+        "en": "Nationality"
+      },
+      "question": {
+        "en": "What is your nationality?"
+      }
+    },
+    {
+      "name": "phone",
+      "kind": "phone",
+      "required": true,
+      "label": {
+        "en": "Mobile Number"
+      },
+      "question": {
+        "en": "What is your mobile number? Please say the digits one by one."
+      }
+    },
+    {
+      "name": "email",
+      "kind": "email",
+      "required": true,
+      "label": {
+        "en": "Email ID"
+      },
+      "question": {
+        "en": "What is your email address?"
+      }
+    },
+    {
+      "name": "permanent_address",
+      "kind": "address",
+      "required": true,
+      "label": {
+        "en": "Permanent Address"
+      },
+      "question": {
+        "en": "What is your permanent address?"
+      }
+    },
+    {
+      "name": "pincode",
+      "kind": "pincode",
+      "required": true,
+      "label": {
+        "en": "PIN Code"
+      },
+      "question": {
+        "en": "What is your PIN code?"
+      }
+    },
+    {
+      "name": "aadhaar",
+      "kind": "aadhaar",
+      "required": true,
+      "label": {
+        "en": "Aadhaar No"
+      },
+      "question": {
+        "en": "What is your Aadhaar number? Please say the twelve digits one by one."
+      }
+    },
+    {
+      "name": "category",
+      "kind": "text",
+      "required": true,
+      "label": {
+        "en": "Category"
+      },
+      "question": {
+        "en": "Which category? General, OBC, SC or ST?"
+      }
+    },
+    {
+      "name": "name_of_school_college_last_attended",
+      "kind": "text",
+      "required": true,
+      "label": {
+        "en": "Name of School/College last attended"
+      },
+      "question": {
+        "en": "What is the name of school/college last attended?"
+      }
+    },
+    {
+      "name": "board_university",
+      "kind": "text",
+      "required": true,
+      "label": {
+        "en": "Board / University"
+      },
+      "question": {
+        "en": "What is your board / university?"
+      }
+    },
+    {
+      "name": "year_of_passing",
+      "kind": "text",
+      "required": true,
+      "label": {
+        "en": "Year of passing"
+      },
+      "question": {
+        "en": "What is your year of passing?"
+      }
+    },
+    {
+      "name": "percentage_cgpa_in_qualifying_exam",
+      "kind": "text",
+      "required": true,
+      "label": {
+        "en": "Percentage / CGPA in qualifying exam"
+      },
+      "question": {
+        "en": "What is your percentage / cgpa in qualifying exam?"
+      }
+    },
+    {
+      "name": "branch_preferred",
+      "kind": "text",
+      "required": false,
+      "label": {
+        "en": "Branch preferred"
+      },
+      "question": {
+        "en": "What is your branch preferred?"
+      }
+    },
+    {
+      "name": "place",
+      "kind": "text",
+      "required": true,
+      "label": {
+        "en": "Place"
+      },
+      "question": {
+        "en": "What is your place?"
+      }
+    },
+    {
+      "name": "date",
+      "kind": "date",
+      "required": false,
+      "label": {
+        "en": "Date"
+      },
+      "question": {
+        "en": "What is the date? Please say the day, month and year."
+      }
+    }
+  ],
+  "languages": [
+    "en"
+  ]
+}

@@ -7,3 +7,15 @@ e2e_output/
 tts_cache/
 tts_out.mp3
 outputs/
+
+# --- voice call page ---
+data/calls/
+data/templates/
+data/tts_cache/
+callpage_server.log
+.env
+
+# --- PDF form reader ---
+data/templates/
+data/filled_forms/
+form_analysis/

@@ -1,0 +1,9 @@
+﻿.env
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+e2e_output/
+tts_cache/
+tts_out.mp3
+outputs/

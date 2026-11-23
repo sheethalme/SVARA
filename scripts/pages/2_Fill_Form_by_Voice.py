@@ -9,6 +9,9 @@ os.environ.setdefault("SVARA_WHISPER_MODEL", "large-v3-turbo")
 import audio_io
 import formflow as ff
 import tts
+from callpage.admin_adapter import sync_all_forms
+from callpage.forms import FormError, FormStore
+from callpage.launcher import ensure_server, call_url
 
 st.set_page_config(page_title="SVARA: fill a form by voice", layout="centered")
 st.title("Fill a form by voice")
@@ -41,6 +44,47 @@ forms = ff.list_forms()
 if not forms:
     st.info("No form has been set up yet. Ask the admin to create one on the 'Admin Form Setup' page.")
     st.stop()
+
+try:
+    sync_all_forms()
+except FormError as e:
+    st.error(str(e))
+
+st.subheader("Hands-free voice call")
+call_form_store = FormStore(os.path.join(ROOT, "data", "forms"))
+hands_free_forms = []
+for call_form_id, call_form_title in call_form_store.list():
+    try:
+        call_form_spec = call_form_store.get(call_form_id)
+        hands_free_forms.append({
+            "id": call_form_spec.id,
+            "title": call_form_spec.title,
+            "fields": call_form_spec.fields,
+        })
+    except FormError:
+        continue
+hands_free = st.selectbox(
+    "Form for hands-free call",
+    hands_free_forms,
+    format_func=lambda f: f"{f['title']}  ({len(f['fields'])} fields)",
+    key="hands_free_form",
+)
+hands_free_lang = st.selectbox(
+    "Call language",
+    list(ff.LANGUAGES),
+    format_func=ff.LANGUAGES.get,
+    key="hands_free_language",
+)
+st.caption("Use a headset, allow the microphone, and use Chrome or Edge.")
+try:
+    ensure_server()
+    st.link_button("Start hands-free voice call", call_url(hands_free["id"], hands_free_lang),
+                   type="primary")
+except RuntimeError as e:
+    st.error(f"{e} (log: callpage_server.log)")
+
+st.divider()
+st.subheader("Manual mode (buttons)")
 
 flow = st.session_state.get("flow")
 if flow is None:

@@ -153,6 +153,15 @@ python evaluate.py --clips data/test_clips --model small    # real clips + refer
 The real experiment needs 1A's 20–30 recordings in `data/test_clips/` with a `references.csv`
 (`file,transcript,language`).
 
+## Local PDF form filling
+
+On **Admin Form Setup**, use **Upload a real PDF form** to analyse a digital PDF, review the detected
+boxes and field meanings, save the template under `data/templates`, and publish it for voice calls.
+During a call, the form is answered normally. In **Form Responses**, select a response and use
+**Preview filled PDF** / **Download filled PDF** to generate a filled copy on demand.
+
+PDF reading and filling are fully local. No PDF bytes or PDF contents are sent to a cloud service.
+
 ## Main Part 1C files
 
 - `features.py`, `plots.py`, `evaluate.py` — the three 1C modules.
@@ -160,3 +169,19 @@ The real experiment needs 1A's 20–30 recordings in `data/test_clips/` with a `
 - `scripts/demo_features.py` — figures 9–12 and `docs/results_1c_features.csv`.
 - `scripts/make_tts_clips.py`, `data/test_clips_tts/` — stand-in evaluation clips.
 - `docs/results_1c_wer.csv`, `docs/results_1c_ablation.csv`, `docs/figures/fig9`–`fig13`.
+
+## Admin forms and hands-free calls
+
+1. Open **Admin Form Setup**, enter a form title, pick fields in the order they should be asked, add custom fields if needed, and edit questions and required flags.
+2. Save the form. SVARA keeps the existing form under `forms/<form_id>/` and exports it to `data/forms/<form_id>.json` for the hands-free call page.
+3. Open **Fill Form by Voice**, select the form, and use **Start hands-free voice call**. Use a headset, allow microphone access, and use Chrome or Edge.
+4. The Admin page's **Calls** section shows call tables, masked values, CSV downloads, conversations, and confirmed deletion.
+
+Run the call page directly or the Streamlit app:
+
+```powershell
+python merge_callpage.py
+python -m pip install -r requirements.txt
+python -m callpage --open
+streamlit run scripts/try_it_app.py
+```
