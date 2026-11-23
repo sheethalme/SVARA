@@ -1,0 +1,36 @@
+{
+  "routes": [
+    {
+      "path": "/",
+      "title": "SVARA overview"
+    },
+    {
+      "path": "/admin",
+      "title": "SVARA admin console"
+    },
+    {
+      "path": "/caller",
+      "title": "SVARA caller experience"
+    },
+    {
+      "path": "/forms",
+      "title": "SVARA forms"
+    },
+    {
+      "path": "/responses",
+      "title": "SVARA responses"
+    },
+    {
+      "path": "/login",
+      "title": "SVARA sign in"
+    },
+    {
+      "path": "/login/admin",
+      "title": "SVARA admin sign in"
+    },
+    {
+      "path": "/login/caller",
+      "title": "SVARA caller sign in"
+    }
+  ]
+}

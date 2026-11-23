@@ -199,11 +199,12 @@ def make_handler(app: CallApp, token: str, allowed_hosts: Tuple[str, ...]):
             try:
                 self._check_host()
                 path = urlparse(self.path).path
-                if method == "GET" and path in ("/", "/index.html"):
+                if method == "GET" and path in ("/", "/index.html", "/admin", "/caller", "/forms", "/responses",
+                                                 "/login", "/login/admin", "/login/caller"):
                     html = page.replace("__TOKEN__", token)
                     return self._send(200, html.encode("utf-8"), "text/html; charset=utf-8",
                                       {"Content-Security-Policy": "default-src 'self'; script-src 'unsafe-inline' blob:; worker-src blob:; "
-                                       "style-src 'unsafe-inline'; media-src 'self' blob:; connect-src 'self'; img-src 'self' data:"})
+                                       "style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; media-src 'self' blob:; connect-src 'self'; img-src 'self' data:"})
                 if method == "GET" and path == "/healthz":
                     return self._send(200, b"ok", "text/plain")
                 if not path.startswith("/api/"):

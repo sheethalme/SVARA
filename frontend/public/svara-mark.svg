@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="SVARA mark">
+  <rect width="128" height="128" rx="30" fill="#5c1f2d"/>
+  <path d="M92 39c-9-13-25-18-40-13-12 4-19 12-18 21 1 11 11 15 25 18l12 3c13 3 18 9 16 18-2 10-14 17-28 17-14 0-25-6-31-16" fill="none" stroke="#c6df99" stroke-width="12" stroke-linecap="round"/>
+  <path d="M34 39c7-7 16-11 25-12" fill="none" stroke="#fff8ea" stroke-width="5" stroke-linecap="round" opacity=".95"/>
+  <circle cx="92" cy="39" r="10" fill="#e24a3b"/>
+  <circle cx="28" cy="87" r="8" fill="#fff8ea"/>
+</svg>
