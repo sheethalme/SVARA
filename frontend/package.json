@@ -1,0 +1,19 @@
+{
+  "name": "svara-voice-forms",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  
+  "scripts": {
+    "dev": "vite --host 127.0.0.1 --strictPort",
+    "build": "vite build && node inline.mjs",
+    "preview": "vite preview --host 127.0.0.1 --strictPort"
+  },
+  "dependencies": {
+    "@vitejs/plugin-react": "latest",
+    "vite": "latest",
+    "react": "latest",
+    "react-dom": "latest"
+  },
+  "devDependencies": {}
+}

@@ -159,6 +159,8 @@ class STTConfig:
             cloud_model=env.get("SVARA_STT_MODEL") or None,
             local_model=env.get("SVARA_WHISPER_PATH") or env.get("SVARA_WHISPER_MODEL", "small"),
             local_files_only=env.get("SVARA_STT_OFFLINE", "0") == "1",
+            beam_size=int(env.get("SVARA_STT_BEAM") or cls.beam_size),                 # 1 = greedy: much faster
+            cpu_threads=int(env.get("SVARA_STT_THREADS") or cls.cpu_threads),
             specialists={c: env[f"SVARA_WHISPER_MODEL_{c.upper()}"] for c in SUPPORTED_LANGUAGES
                          if env.get(f"SVARA_WHISPER_MODEL_{c.upper()}")},
         )

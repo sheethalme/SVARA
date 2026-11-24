@@ -19,3 +19,14 @@ callpage_server.log
 data/templates/
 data/filled_forms/
 form_analysis/
+
+# --- accounts, access codes and local data (never commit) ---
+data/users.json
+data/owners.json
+data/access.json
+data/outbox/
+data/templates/
+frontend/node_modules/
+frontend/dist/
+callpage_server.err
+.env
